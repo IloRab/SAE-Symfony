@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /** @UniqueEntity(
   * fields={"id"},
   * errorPath="madbit",
-  * message="It appears you have already registered with this id."
+  * message="Vous vous êtes déjà inscrit avec ce numero d'Admninistre"
   *)
   */
 

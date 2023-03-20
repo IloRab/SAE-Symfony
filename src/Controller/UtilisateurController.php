@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\{Response, Request};
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Form\UserType;
+use App\Form\UtilisateurConnectionType;
 use App\Entity\Utilisateur;
 
 
@@ -38,8 +39,7 @@ class UtilisateurController extends AbstractController
 			//var_dump($new_user -> getId());
 
             // ... perform some action, such as saving the task to the database
-			//  wtf mon capslock marche pas sur ton pc
-			//  Quand je tapper en capslock rien ne s'affiche
+			
 
         }
 
@@ -51,46 +51,40 @@ class UtilisateurController extends AbstractController
 	#[Route('/connection', name: 'app_connection')]
     function connection(Request $request, ManagerRegistry $doctrine): Response
 		{
-			
+			$session = $request->getSession();
 
+			if ($session->get('EST_CONNECTE')){
+				//TODO
+			}
 
+			$form = $this->createForm(UtilisateurConnectionType::class);
+
+			$form->handleRequest($request);
+        	if (!$form->isSubmitted() || !$form->isValid()) {
+            	return $this->render('utilisateur/index.html.twig', [
+                	'form' => $form->createView(),
+           		]);
+        	}
+
+        	$user =  $form -> getData();
+
+			$entityManager = $doctrine->getManager();
+        	// $user_information = $entityManager->getRepository(Utilisateur::class)->findOneBy(array('nom' => $user -> getNom(),'num' => $user -> getNum()));
+			$user_information = $entityManager->getRepository(Utilisateur::class)->findOneBy(array('id' => $user -> getId(),'password' => $user -> getPassword()));
+
+        	if (!$user_information){
+            	return $this->render('utilisateur/index.html.twig', [
+                	'form' => $form->createView(),
+                	'error_message' => "Connexion impossible, utilisateur inexistant ou mot de passe invalide", 
+            	]);
+        	}
+
+        	$session->set('id', $user_information->getId());
+        	$session->set('EST_CONNECTE', TRUE);
+
+        	// return $this->redirectToRoute('contacts_show');
 	
 		}
-
-
-// function inscription()
-// {
-
-// 	$admin_id = isset($_POST['admin_id']) ? ($_POST['admin_id']) : '';
-// 	$nom = isset($_POST['nom']) ? ($_POST['nom']) : '';
-// 	$prenom = isset($_POST['prenom']) ? ($_POST['prenom']) : '';
-// 	$rue = isset($_POST['rue']) ? ($_POST['rue']) : '';
-// 	$ville = isset($_POST['ville']) ? ($_POST['ville']) : '';
-// 	$c_postal= isset($_POST['c_postal']) ? ($_POST['c_postal']) : '';
-// 	$num_tel= isset($_POST['num_tel']) ? ($_POST['num_tel']) : '';
-// 	$password = isset($_POST['password']) ? ($_POST['password']) : '';
-// 	$msg = '';
-	
-// 	require('modele/utilisateurBD.php');
-
-// 	if (count($_POST) == 0){
-// 	  require("./vue/utilisateur/connexion.tpl");
-// 	  return;
-// 	}
-
-// 	if (!verif_ident($admin_id, $username, $password, $profil)) {
-// 		$_SESSION['profil'] = array();
-// 		$msg = "erreur de saisie";
-// 		require("./vue/utilisateur/connexion.tpl");
-// 		return;
-// 	}
-
-// 	$_SESSION['profil'] = $profil;
-// 	echo "HAHAHAHAHAHA";
-// 	//$url = "index.php?controle=user&action=accueil";
-// 	//header("Location:" . $url);
-	
-// }
 
 function deconnection()
 {
