@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\{Response, Request};
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Form\UserType;
+use App\Entity\Aliment;
+use App\Form\AlimentsFavorisType;
 use App\Form\UtilisateurConnectionType;
 use App\Entity\Utilisateur;
 
@@ -18,33 +20,25 @@ class UtilisateurController extends AbstractController
     {
 
 
-//        $new_user = new Utilisateur();
-
         $form = $this->createForm(UserType::class);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // $form->getData() holds the submitted values
-            // but, the original `$task` variable has also been updated
-		//	var_dump($new_user);
+
 			$entityManager = $doctrine->getManager();
 
-			// tell Doctrine you want to (eventually) save the Product (no queries yet)
 			$u =  $form -> getData();
 			$entityManager->persist($u);
 
-			// actually executes the queries (i.e. the INSERT query)
 			$entityManager->flush();
-			
-			//var_dump($new_user -> getId());
-
-            // ... perform some action, such as saving the task to the database
-			
 
         }
 
         return $this->render('utilisateur/index.html.twig', [
             'form' => $form->createView(),
+			'auth_title' => "Inscription",
+			'auth_msg' => "Se connecter",
+			'auth_url' => "/connection",
         ]);
     }
 
@@ -54,7 +48,7 @@ class UtilisateurController extends AbstractController
 			$session = $request->getSession();
 
 			if ($session->get('EST_CONNECTE')){
-				//TODO
+				return $this->redirectToRoute('sondage');
 			}
 
 			$form = $this->createForm(UtilisateurConnectionType::class);
@@ -63,6 +57,9 @@ class UtilisateurController extends AbstractController
         	if (!$form->isSubmitted() || !$form->isValid()) {
             	return $this->render('utilisateur/index.html.twig', [
                 	'form' => $form->createView(),
+					'auth_title' => "Connection",
+					'auth_msg' => "S'inscrire",
+					'auth_url' => "/inscription",
            		]);
         	}
 
@@ -82,16 +79,29 @@ class UtilisateurController extends AbstractController
         	$session->set('id', $user_information->getId());
         	$session->set('EST_CONNECTE', TRUE);
 
-        	// return $this->redirectToRoute('contacts_show');
+        	return $this->redirectToRoute('sondage');
 	
 		}
 
-function deconnection()
-{
-	//session_start();
-	//session_destroy();
-	header("location: " . "index.php");
-}
+	#[Route('/sondage', name: 'sondage')]                                                                                                                                                                                                                                                                                                         
+    public function sondage(Request $request,  ManagerRegistry $doctrine)
+    {
+		$session = $request->getSession();
+
+		if (!$session->get('EST_CONNECTE')){
+			return $this->redirectToRoute('app_connection');
+		}
+
+		$form = $this->createForm(AlimentsFavorisType::class);
+
+		$form->handleRequest($request);
+		if (!$form->isSubmitted() || !$form->isValid()) {
+			return $this->render('utilisateur/index.html.twig', [
+				'form' => $form->createView(),
+				'auth_title' => "Sondage Santé",
+			   ]);
+		}
 
 
+    }
 }

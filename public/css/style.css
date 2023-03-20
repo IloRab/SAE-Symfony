@@ -127,3 +127,15 @@ form>h2 {
   background-color: white;
   color: #2F4558 !important;
 }*/
+
+#bandeau-image-accueil{
+  object-fit: cover;
+}
+
+#presentation{
+  background-color: #2F4558;
+}
+
+#maincomponents>section{
+  margin-bottom: 5px;
+}

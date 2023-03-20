@@ -14,12 +14,10 @@ class UtilisateurConnectionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('id')
-            ->add('password')
-
-            -> add('valider', SubmitType::class)
-            -> add('reinitialiser', ResetType::class);
-        ;
+            -> add('id')
+            -> add('password')
+            -> add('valider', SubmitType::class, ['attr' => ['class' => 'btn btn-primary']])
+            -> add('reinitialiser', ResetType::class, ['attr' => ['class' => 'btn btn-primary']]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

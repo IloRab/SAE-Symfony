@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 use \Datetime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,8 +14,6 @@ use Doctrine\ORM\Mapping as ORM;
   * message="Vous vous êtes déjà inscrit avec ce numero d'Admninistre"
   *)
   */
-
-  
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 #[Table(name: 'utilisateur')]
 class Utilisateur
@@ -46,6 +46,7 @@ class Utilisateur
 
     #[ORM\Column(name: "adresse")]
     private String $adresse;
+
 
     public function setId(int $i){
         $this->id = $i;
@@ -120,6 +121,5 @@ class Utilisateur
     public function getNaissance() : DateTime{
         return $this -> naissance;
     }
-
 
 }

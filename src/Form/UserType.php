@@ -23,8 +23,8 @@ class UserType extends AbstractType
          -> add('ville', TextType::class)
          -> add('adresse', TextType::class)
          
-         -> add('valider', SubmitType::class)
-         -> add('reinitialiser', ResetType::class);
+         -> add('valider', SubmitType::class, ['attr' => ['class' => 'btn btn-primary']])
+         -> add('reinitialiser', ResetType::class, ['attr' => ['class' => 'btn btn-primary']]);
         
     }
 
