@@ -1,3 +1,129 @@
-form {
-    
+@font-face {
+  font-family: "Hammersmith One";
+  src: url("../fonts/HammersmithOne-Regular.ttf");
 }
+
+@font-face {
+  font-family: "Avenir";
+  src: url("../fonts/Avenir\ 65\ Medium.otf");
+}
+
+body {
+  background-color: #eeeeee;
+  /*background-image: url("../Images/background.jpg");
+  background-repeat: repeat;*/
+}
+
+header,
+footer {
+  background-color: #2F4558;
+}
+
+header{
+  border-bottom: .5em solid;
+  border-color: #395877;
+  box-shadow: 0 1rem 1rem rgba(0,0,0,.15);
+}
+
+a{
+  text-decoration: none !important;
+}
+
+footer {
+  padding-bottom: 2rem;
+}
+
+.navbar-brand {
+  height: auto;
+}
+
+#logo {
+  height: 100%;
+  width: 100%;
+}
+
+p,
+span {
+  font-size: 18px;
+  font-family: "Avenir";
+  margin-bottom: 13px;
+}
+
+.header-footer-button {
+  font-size: 20px !important;
+  font-family: "Avenir" !important;
+  color: white !important;
+}
+
+.header-footer-button:hover{
+  background-color: white !important;
+  color: #2F4558 !important;
+}
+
+.nav-link {
+  margin-right: 1rem;
+  margin-left: 1rem;
+}
+
+h1 {
+  font-family: "Hammersmith One";
+  -webkit-text-stroke: 2px white;
+  text-shadow: 3px 3px 3px black;
+}
+
+h2 {
+  font-family: "Hammersmith One";
+  margin-bottom: 22px;
+}
+
+#articles>article {
+  margin-bottom: 40px;
+}
+
+.paragraphe {
+  justify-content: space-between;
+}
+
+.paragaphe>div>img {
+  display: flex;
+  align-items: center;
+}
+
+#sidecomponents>section, #maincomponents>section {
+  padding: 1rem;
+  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+  background-color: white;
+}
+
+form>h2 {
+  text-transform: uppercase;
+  text-align: left;
+}
+
+.carousel-item>img{
+  width: 100%;
+}
+
+.carousel-legend{
+  background-color: rgb(68, 66, 66);
+  text-align: center;
+  padding: .3em;
+}
+
+.carousel-legend>a{
+  color : white;
+}
+
+
+/*.sous-menu-item{
+  height: auto;
+  color: white;
+  -webkit-hyphens: auto !important;
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+#footerButton:hover{
+  background-color: white;
+  color: #2F4558 !important;
+}*/

@@ -1,20 +1,146 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        <link href="css/style.css" rel="stylesheet" />
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+          <!--JQuery-->
+          <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+          <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
+          <!--Bootstrap-->
+          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+            crossorigin="anonymous"></script>
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+          <!--ANIMATION-->
+          <link rel="stylesheet" type="text/css"
+            href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+          <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+
+          <script src="js/script.js"></script>
+          <link rel="stylesheet" href="css/style.css">
+          <meta name="viewport" content="width=device-width,initial-scale=1">
+
+          <title>
+              {% block titre %}
+              {% endblock%}
+         - Beauvaisis - Communauté d'agglomération du Beauvaisis</title>
     </head>
     <body>
+      <header class="row container-fluid ps-3 pe-3 m-0 sticky-top">
+        <nav class="navbar navbar-expand-md">
+          <div class="container-fluid nav">
+            <!--BUTTON TOGGLER COLLAPSE-->
+            <button id="navToggler" class="navbar-toggler border-1 border-light" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapsibleNavbar" aria-controls="collapsibleNavbar" aria-expanded="false"
+              aria-label="Toggle navigation">
+              <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="white" class="bi bi-list"
+                viewBox="0 0 16 16" id="svg">
+                <path fill-rule="evenodd"
+                  d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+              </svg>
+            </button>
+
+            <!--LOGO-->
+            <a class="navbar-brand">
+              <img id="logo" src="Images/logo_beauvaisis_blanc_inline.png" alt="Logo du beauvaisis">
+            </a>
+
+            <!--ITEM MENU-->
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+              <ul class="navbar-nav ms-auto">
+
+                <li class="nav-item">
+                  <a class="nav-link btn border-0 header-footer-button" href="accueil.html">Accueil</a>
+                </li>
+
+                <li class="nav-item dropdown d-grid">
+                  <span class="nav-link dropdown-toggle btn border-0 header-footer-button" href="#" role="button"
+                    data-bs-toggle="dropdown">L'agglomération</span>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item mb-sm-2 mb-md-2 mb-lg-0" href="presentation.html">Présentation</a></li>
+                    <li><a class="dropdown-item mb-sm-2 mb-md-2 mb-lg-0" href="actualites.html">Actualités</a></li>
+                    <li><a class="dropdown-item mb-sm-2 mb-md-2 mb-lg-0" href="">Conseil communautaire</a></li>
+                    <li><a class="dropdown-item mb-sm-2 mb-md-2 mb-lg-0" href="">Délégation de service public</a></li>
+                    <li><a class="dropdown-item mb-sm-2 mb-md-2 mb-lg-0" href="">Services communautaires</a></li>
+                    <li><a class="dropdown-item mb-sm-2 mb-md-2 mb-lg-0" href="">Les projets</a></li>
+                  </ul>
+                </li>
+
+                <li class="nav-item dropdown d-grid">
+                  <span class="nav-link dropdown-toggle btn border-0 header-footer-button" href="#" role="button"
+                    data-bs-toggle="dropdown">S'y implanter</span>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item mb-sm-2 mb-md-2 mb-lg-0" href="">Pourquoi le Beauvaisis ?</a></li>
+                    <li><a class="dropdown-item mb-sm-2 mb-md-2 mb-lg-0" href="">Secteurs d'activités majeurs</a></li>
+                    <li><a class="dropdown-item mb-sm-2 mb-md-2 mb-lg-0" href="">S'implenter</a></li>
+                    <li><a class="dropdown-item mb-sm-2 mb-md-2 mb-lg-0" href="">Nos atouts géographiques</a></li>
+                  </ul>
+                </li>
+
+                <li class="nav-item dropdown d-grid">
+                  <span class="nav-link dropdown-toggle btn border-0 header-footer-button" href="#" role="button"
+                    data-bs-toggle="dropdown">Y habiter</span>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item mb-sm-2 mb-md-2 mb-lg-0" href="">Culture, loisirs et famille</a></li>
+                    <li><a class="dropdown-item mb-sm-2 mb-md-2 mb-lg-0" href="tourisme_et_transport.html">Tourisme et
+                        transport</a></li>
+                    <li><a class="dropdown-item mb-sm-2 mb-md-2 mb-lg-0" href="">Gestion des déchets</a></li>
+                    <li><a class="dropdown-item mb-sm-2 mb-md-2 mb-lg-0" href="">Politique de la ville</a></li>
+                  </ul>
+                </li>
+
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </header>
+
         {% block body %}{% endblock %}
+
+      <footer class="container-fluid">
+        <div class="row mt-4 pt-4 justify-content-evenly">
+
+          <a class="btn col-lg-2 col-md-3 col-sm-12 header-footer-button">Nous contacter</a>
+          <a href="http://www.beauvaisis.fr/mentions-legales.html" class="btn col-lg-2 col-md-3 col-sm-12 header-footer-button">Mentions légales</a>
+
+          <div class="col-lg-2 col-md-3 col-sm-12 d-flex justify-content-around">
+            <!--FACEBOOK-->
+            <a class="btn btn-outline-light header-footer-button border-0 m-1" href="https://www.facebook.com/beauvaisis"
+              role="button"><i class="bi bi-facebook"></i></a>
+
+            <!--TWITTER-->
+            <a class="btn btn-outline-light header-footer-button border-0 m-1" href="https://twitter.com/agglobeauvaisis"
+              role="button"><i class="bi bi-twitter"></i></a>
+
+            <!-- SHARE -->
+            <a class="btn btn-outline-light header-footer-button border-0 m-1" href="" role="button" data-bs-toggle="modal"
+              data-bs-target="#maps"><i class="bi bi-geo-alt-fill"></i></a>
+          </div>
+        </div>
+        <!--MDOAL-->
+        <div class="modal fade" id="maps">
+          <div class="modal-dialog">
+            <div class="modal-content">
+
+              <!-- Modal body -->
+              <div class="modal-body">
+                <img src="Images/Screenshot from 2022-11-02 17-48-14.png" alt="site du Beauvaisis" style="max-width:100%;">
+                <div class="container-fluid mt-2 mb-2">
+                  <i class="bi bi-house-fill"></i>
+                  <span>48 rue Desgroux, 60 000 Beauvaisis, France</span><br>
+                </div>
+                <div class="container-fluid mt-2 mb-2">
+                  <i class="bi bi-telephone-fill"></i>
+                  <span>03 44 15 68 00</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </footer>
+
     </body>
 </html>
