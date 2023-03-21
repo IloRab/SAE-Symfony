@@ -20,31 +20,31 @@ class Utilisateur
 {
 
     #[ORM\Id]
-    #[ORM\Column]
+    #[ORM\Column(name: "Identifiant")]
     private int $id;
 
-    #[ORM\Column]
+    #[ORM\Column(name: "pwd")]
     private String $password;
 
-    #[ORM\Column]
+    #[ORM\Column(name: "Nom")]
     private String $nom;
 
-    #[ORM\Column]
+    #[ORM\Column(name: "Prenom")]
     private String $prenom;
 
-    #[ORM\Column(type: "date")]
+    #[ORM\Column(name: "Naissance", type: "date")]
     private Datetime $naissance;
 
-    #[ORM\Column]
+    #[ORM\Column(name: "CodePostale")]
     private int $c_postal;
 
-    #[ORM\Column(name: "telephone")]
+    #[ORM\Column(name: "Telephone")]
     private String $num_tel;
 
-    #[ORM\Column]
+    #[ORM\Column(name: "Ville")]
     private String $ville;
 
-    #[ORM\Column(name: "adresse")]
+    #[ORM\Column(name: "Adresse")]
     private String $adresse;
 
 

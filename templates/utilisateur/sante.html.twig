@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Authentification - {{auth_title}}{% endblock %}
+
+{% block body %}
+    <main id="page" class="container-fluid">
+        <article>
+            <h1>Un sondage santé</h1>
+            <p>Un sondage pour mesure la dégeulassitude de nos habitants.</p>
+
+            {{form(form)}}
+        </article>
+    </main>
+{% endblock %}

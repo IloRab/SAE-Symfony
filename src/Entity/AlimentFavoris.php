@@ -17,9 +17,10 @@ class AlimentFavoris
     #[ORM\Column]
     private ?int $alim_code = null;
 
-    #[ORM\Id]
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $annee = null;
+    public function __construct(int $id_user, int $alim_code){
+        $this->Identifiant_User = $id_user;
+        $this->alim_code = $alim_code;
+    }
 
     public function getIdentifiant_User(): ?int
     {
@@ -34,18 +35,6 @@ class AlimentFavoris
     public function setAlimCode(int $alim_code): self
     {
         $this->alim_code = $alim_code;
-
-        return $this;
-    }
-
-    public function getAnnee(): ?\DateTimeInterface
-    {
-        return $this->annee;
-    }
-
-    public function setAnnee(\DateTimeInterface $annee): self
-    {
-        $this->annee = $annee;
 
         return $this;
     }

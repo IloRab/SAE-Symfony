@@ -5,9 +5,7 @@
 {% block body %}
     <main id="page" class="container-fluid">
         {{ form(form) }}
-        {% if auth_url is defined %}
-            <a href="{{auth_url}}">{{ auth_msg }}</a>
-        {% endif %}
+        <a href="{{auth_url}}">{{ auth_msg }}</a>
       
     </main>
 {% endblock %}

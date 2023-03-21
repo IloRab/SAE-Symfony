@@ -132,30 +132,30 @@ CREATE TABLE IF NOT EXISTS `score_sante` (
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `calcul_score_sante` AFTER INSERT ON `alimfavori` FOR EACH ROW BEGIN 
-	DECLARE sante INT;
-	DECLARE done INT DEFAULT FALSE;
-	DECLARE alim INTEGER;
-	DECLARE nb_alim INTEGER;
-	DECLARE score_alim INTEGER;
-	DECLARE cur1 CURSOR FOR SELECT alim_code FROM alimfavori WHERE Identifiant_User= NEW.Identifiant_User;
-   DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+    DECLARE sante INT;
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE alim INTEGER;
+    DECLARE nb_alim INTEGER;
+    DECLARE score_alim INTEGER;
+    DECLARE cur1 CURSOR FOR SELECT alim_code FROM alimfavori WHERE Identifiant_User= NEW.Identifiant_User;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 
-SET sante = 0;
-SELECT COUNT(alim_code) INTO nb_alim FROM alimfavori WHERE Identifiant_User=NEW.Identifiant_User;
-OPEN cur1;
-calcul: LOOP
-	FETCH cur1 INTO alim;
-	IF done then 
-		LEAVE calcul;
-	END IF;
-SELECT score INTO score_alim FROM sante_alim WHERE code_alim = alim;
-SET sante = sante + score_alim;
-END LOOP calcul;
-CLOSE cur1;
-SET sante= sante / nb_alim;
-REPLACE INTO score_sante VALUES(NEW.Identifiant_User,sante);
-END//
-DELIMITER ;
+  SET sante = 0;
+  SELECT COUNT(alim_code) INTO nb_alim FROM alimfavori WHERE Identifiant_User=NEW.Identifiant_User;
+  OPEN cur1;
+  calcul: LOOP
+    FETCH cur1 INTO alim;
+    IF done then 
+      LEAVE calcul;
+    END IF;
+  SELECT score INTO score_alim FROM sante_alim WHERE code_alim = alim;
+  SET sante = sante + score_alim;
+  END LOOP calcul;
+  CLOSE cur1;
+  SET sante= sante / nb_alim;
+  REPLACE INTO score_sante VALUES(NEW.Identifiant_User,sante);
+  END//
+  DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;

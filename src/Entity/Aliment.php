@@ -88,4 +88,9 @@ class Aliment
 
         return $this;
     }
+
+    public function to_alim_fav(int $uid) : AlimentFavoris
+    {
+        return new AlimentFavoris($uid, $this->alim_code);
+    }
 }

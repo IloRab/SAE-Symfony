@@ -6,6 +6,8 @@ use App\Entity\AlimentFavoris;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+use Doctrine\DBAL\Connection;
+
 /**
  * @extends ServiceEntityRepository<AlimentFavoris>
  *
@@ -39,6 +41,24 @@ class AlimentFavorisRepository extends ServiceEntityRepository
         }
     }
 
+
+    /**
+     * Enregistre un aliment en tant que favori pour un utilisateur.
+     *
+     * @param int $userId L'ID de l'utilisateur pour lequel enregistrer le favori.
+     * @param string $codeAliment Le code de l'aliment à enregistrer en tant que favori.
+     */
+    function save_alim_favoris(AlimentFavoris $af): void
+    {
+   
+        $connection = $this->getEntityManager()->getConnection();
+
+        $statement = $connection->prepare('CALL ajout_alimfav(:id_user, :code_aliment)');
+        $statement->bindValue('id_user', $af->getIdentifiant_User());
+        $statement->bindValue('code_aliment', $af->getAlimCode());
+
+        $statement->execute();
+    }
 //    /**
 //     * @return AlimentFavoris[] Returns an array of AlimentFavoris objects
 //     */
