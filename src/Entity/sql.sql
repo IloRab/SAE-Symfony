@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `Nom` varchar(50) CHARACTER SET utf8mb4 NOT NULL,
   `Prenom` varchar(50) CHARACTER SET utf8mb4 NOT NULL,
   `Naissance` date NOT NULL,
-  `CodePostal` int unsigned NOT NULL,
+  `CodePostale` int unsigned NOT NULL,
   `Telephone` int unsigned NOT NULL,
   `Ville` varchar(30) CHARACTER SET utf8mb4 NOT NULL,
   `Adresse` varchar(100) CHARACTER SET utf8mb4 NOT NULL,
