@@ -71,14 +71,14 @@ CREATE PROCEDURE `ajout_user`(
 	IN `mdp` VARCHAR(150),
 	IN `Nom` VARCHAR(50),
 	IN `Prenom` VARCHAR(50),
-	IN `DateOfBirth` VARCHAR(10),
+	IN `DateOfBirth` DATE,
 	IN `CodePostale` INT,
 	IN `Tel` INT,
 	IN `City` VARCHAR(30),
 	IN `Address` VARCHAR(100)
 )
 BEGIN
-INSERT INTO utilisateur(Identifiant,pwd,Nom,Prenom,Naissance,`CodePostal`,Telephone,Ville,Adresse) VALUES(Id,SHA2(mdp,512),Nom,Prenom,STR_TO_DATE(DateOfBirth,"%d/%c/%Y"),CodePostale,Tel,City,Address);
+INSERT INTO utilisateur(Identifiant,pwd,Nom,Prenom,Naissance,`CodePostal`,Telephone,Ville,Adresse) VALUES(Id,SHA2(mdp,512),Nom,Prenom,DateOfBirth,CodePostale,Tel,City,Address);
 END//
 DELIMITER ;
 
