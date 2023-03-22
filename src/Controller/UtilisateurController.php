@@ -115,8 +115,7 @@ class UtilisateurController extends AbstractController
 	#[Route('/recap', name: 'recap')]                                                                                                                                                                                                                                                                                                         
     public function recap(Request $request,ManagerRegistry $doctrine){
 
-
-
+		
 	}
 
 
