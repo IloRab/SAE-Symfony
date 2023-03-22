@@ -1,4 +1,7 @@
 //récuperer les données json
+$.getJSON('', function(data){
+    
+})
 
 //Data Block
 const data = {
