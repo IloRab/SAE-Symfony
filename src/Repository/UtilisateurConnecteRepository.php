@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\UtilisateurConnecte;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,6 +38,31 @@ class UtilisateurConnecteRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+    
+    public function verif_indentifiants(UtilisateurConnecte $user) : bool {
+ 
+        var_dump($user);
+        $em = $this->getEntityManager();
+
+        $sql = 'SELECT verif_pwd(:id, :pwd) AS est_vrai';
+
+        $rsm = new ResultSetMappingBuilder($em);
+        $rsm->addScalarResult('est_vrai', 'result', 'boolean');
+
+        $query = $em->createNativeQuery($sql, $rsm);
+
+        $id =  $user->getId();
+        $pwd = $user->getPassword();
+
+        var_dump($id);
+        var_dump($pwd);
+
+        $query->setParameter('id', $id);
+        $query->setParameter('pwd', $pwd);
+
+        $res =  $query->getSingleScalarResult();
+        return $res;
     }
 
 //    /**

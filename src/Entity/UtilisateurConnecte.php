@@ -10,7 +10,7 @@ class UtilisateurConnecte
 {
     #[ORM\Id]
     #[ORM\Column]
-    private ?int $id = null;
+    private String $id;
 
     // #[ORM\Column(length: 100)]
     // private ?string $token = null;
@@ -18,11 +18,11 @@ class UtilisateurConnecte
     #[ORM\Column]
     private String $password;
 
-    public function setId(int $i){
+    public function setId(String $i){
         $this->id = $i;
     }
 
-    public function getId(): ?int
+    public function getId(): String
     {
         return $this->id;
     }

@@ -6,17 +6,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Response, Request};
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Form\UserType;
-use App\Entity\Aliment;
-use App\Form\AlimentsFavorisType;
-use App\Form\UtilisateurConnectionType;
-use App\Entity\Utilisateur;
-use App\Repository\AlimentFavorisRepository;
+
+use App\Entity\{Aliment, Utilisateur};
+use App\Form\{UserType, AlimentsFavorisType, UtilisateurConnectionType};
+use App\Repository\{AlimentFavorisRepository, UtilisateurRepository, UtilisateurConnecteRepository};
 
 class UtilisateurController extends AbstractController
 {
     #[Route('/inscription', name: 'app_inscription')]
-    public function inscription(Request $request, ManagerRegistry $doctrine): Response
+    public function inscription(Request $request, UtilisateurRepository $user_repo): Response
     {
 		$session = $request->getSession();
 		if ($session->get('EST_CONNECTE')){
@@ -35,18 +33,15 @@ class UtilisateurController extends AbstractController
 			]);
 		}
 
-		$entityManager = $doctrine->getManager();
-
 		$u =  $form -> getData();
-		$entityManager->persist($u);
-		$entityManager->flush();
+		$user_repo->save($u);
 
 		return $this->redirectToRoute('app_connection');
 
     }
 
 	#[Route('/connection', name: 'app_connection')]
-    function connection(Request $request, ManagerRegistry $doctrine): Response
+    function connection(Request $request, UtilisateurConnecteRepository $user_repo): Response
 		{
 			$session = $request->getSession();
 
@@ -68,11 +63,12 @@ class UtilisateurController extends AbstractController
 
         	$user =  $form -> getData();
 
-			$entityManager = $doctrine->getManager();
-        	// $user_information = $entityManager->getRepository(Utilisateur::class)->findOneBy(array('nom' => $user -> getNom(),'num' => $user -> getNum()));
-			$user_information = $entityManager->getRepository(Utilisateur::class)->findOneBy(array('id' => $user -> getId(),'password' => $user -> getPassword()));
+			// $entityManager = $doctrine->getManager();
+        	// // $user_information = $entityManager->getRepository(Utilisateur::class)->findOneBy(array('nom' => $user -> getNom(),'num' => $user -> getNum()));
+			// $user_information = $entityManager->getRepository(Utilisateur::class)->findOneBy(array('id' => $user -> getId(),'password' => $user -> getPassword()));
 
-        	if (!$user_information){
+			var_dump($user);
+        	if (!$user_repo->verif_indentifiants($user)){
             	return $this->render('utilisateur/index.html.twig', [
                 	'form' => $form->createView(),
 					'auth_title' => "Connection",
@@ -82,7 +78,7 @@ class UtilisateurController extends AbstractController
             	]);
         	}
 
-        	$session->set('id', $user_information->getId());
+        	$session->set('id', $user->getId());
         	$session->set('EST_CONNECTE', TRUE);
 
         	return $this->redirectToRoute('sondage');

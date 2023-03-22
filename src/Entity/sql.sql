@@ -78,10 +78,29 @@ CREATE PROCEDURE `ajout_user`(
 	IN `Address` VARCHAR(100)
 )
 BEGIN
-INSERT INTO utilisateur(Identifiant,pwd,Nom,Prenom,Naissance,`CodePostal`,Telephone,Ville,Adresse) VALUES(Id,SHA2(mdp,512),Nom,Prenom,STR_TO_DATE(DateOfBirth,"%d/%c/%Y"),CodePostale,Tel,City,Address);
+INSERT INTO utilisateur(Identifiant,pwd,Nom,Prenom,Naissance, CodePostale,Telephone,Ville,Adresse) VALUES(Id,SHA2(mdp,512),Nom,Prenom, DateOfBirth,CodePostale,Tel,City,Address);
 END//
 DELIMITER ;
 
+DELIMITER //
+
+CREATE FUNCTION `verif_pwd` (attempt VARCHAR(150), identifiant_administre VARCHAR(50))
+	RETURNS BOOLEAN
+	READS SQL DATA
+	DETERMINISTIC
+BEGIN
+  DECLARE correct_hash VARCHAR(150);
+
+  SELECT u.pwd INTO correct_hash
+  FROM utilisateur AS u
+  WHERE u.Identifiant = identifiant_administre
+  LIMIT 1;
+
+  RETURN SHA2(attempt, 512) = correct_hash;
+
+END; //
+
+DELIMITER ;
 
 -- Listage de la structure de table site. alimfavori
 CREATE TABLE IF NOT EXISTS `alimfavori` (

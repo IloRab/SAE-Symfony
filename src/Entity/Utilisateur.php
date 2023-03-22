@@ -21,7 +21,7 @@ class Utilisateur
 
     #[ORM\Id]
     #[ORM\Column(name: "Identifiant")]
-    private int $id;
+    private String $id;
 
     #[ORM\Column(name: "pwd")]
     private String $password;
@@ -48,11 +48,11 @@ class Utilisateur
     private String $adresse;
 
 
-    public function setId(int $i){
+    public function setId(String $i){
         $this->id = $i;
     }
 
-    public function getId() : int{
+    public function getId() : String{
         return $this->id;
     }
 

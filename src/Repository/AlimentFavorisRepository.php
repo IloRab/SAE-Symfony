@@ -18,9 +18,14 @@ use Doctrine\DBAL\Connection;
  */
 class AlimentFavorisRepository extends ServiceEntityRepository
 {
+    private $statement;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, AlimentFavoris::class);
+
+        $connection = $this->getEntityManager()->getConnection();
+        $this->statement = $connection->prepare('CALL ajout_alimfav(:id_user, :code_aliment)');
     }
 
     public function save(AlimentFavoris $entity, bool $flush = false): void
@@ -50,10 +55,6 @@ class AlimentFavorisRepository extends ServiceEntityRepository
      */
     function save_alim_favoris(AlimentFavoris $af): void
     {
-   
-        $connection = $this->getEntityManager()->getConnection();
-
-        $statement = $connection->prepare('CALL ajout_alimfav(:id_user, :code_aliment)');
         $statement->bindValue('id_user', $af->getIdentifiant_User());
         $statement->bindValue('code_aliment', $af->getAlimCode());
 
