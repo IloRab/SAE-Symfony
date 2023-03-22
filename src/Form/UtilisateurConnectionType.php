@@ -6,7 +6,7 @@ use App\Entity\UtilisateurConnecte;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\{TextType,SubmitType, ResetType};
+use Symfony\Component\Form\Extension\Core\Type\{TextType,SubmitType, ResetType, PasswordType};
 
 
 class UtilisateurConnectionType extends AbstractType
@@ -14,8 +14,8 @@ class UtilisateurConnectionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            -> add('id')
-            -> add('password')
+            -> add('id', TextType::class)
+            -> add('password', PasswordType::class)
             -> add('valider', SubmitType::class, ['attr' => ['class' => 'btn btn-primary']])
             -> add('reinitialiser', ResetType::class, ['attr' => ['class' => 'btn btn-primary']]);
     }

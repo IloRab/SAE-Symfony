@@ -38,4 +38,5 @@ class AlimentFavoris
 
         return $this;
     }
+
 }

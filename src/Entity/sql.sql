@@ -82,6 +82,7 @@ INSERT INTO utilisateur(Identifiant,pwd,Nom,Prenom,Naissance, CodePostale,Teleph
 END//
 DELIMITER ;
 
+
 DELIMITER //
 
 CREATE FUNCTION `verif_pwd` (attempt VARCHAR(150), identifiant_administre VARCHAR(50))
@@ -95,6 +96,11 @@ BEGIN
   FROM utilisateur AS u
   WHERE u.Identifiant = identifiant_administre
   LIMIT 1;
+
+  IF correct_hash IS NULL
+  THEN
+    RETURN FALSE;
+  END IF;
 
   RETURN SHA2(attempt, 512) = correct_hash;
 

@@ -4,7 +4,12 @@
 
 {% block body %}
     <main id="page" class="container-fluid">
+        {% if error_msg is defined %}.
+            <p class="error">{{error_msg}}</p>
+        {% endif %}
+
         {{ form(form) }}
+
         <a href="{{auth_url}}">{{ auth_msg }}</a>
       
     </main>

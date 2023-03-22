@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\AlimentsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+use Ds\Set;
+
 #[ORM\Entity(repositoryClass: AlimentsRepository::class)]
 class Aliment
 {
@@ -89,8 +91,18 @@ class Aliment
         return $this;
     }
 
-    public function to_alim_fav(int $uid) : AlimentFavoris
+    public function convert_to_fav(int $uid) : AlimentFavoris
     {
         return new AlimentFavoris($uid, $this->alim_code);
+    }
+
+    public static function convert_all_to_fav(array $aliments, int $uid) : array {
+        $ar = array();
+
+        foreach ($aliments as $alim) {
+			$ar[] = $alim->convert_to_fav($uid);
+		}
+
+        return $ar;
     }
 }

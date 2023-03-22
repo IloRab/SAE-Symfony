@@ -7,6 +7,9 @@
         <article>
             <h1>Un sondage santé</h1>
             <p>Un sondage pour mesure la dégeulassitude de nos habitants.</p>
+            {% if error_msg is defined %}.
+                <p class="error">{{error_msg}}</p>
+            {% endif %}
 
             {{form(form)}}
         </article>

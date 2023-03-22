@@ -67,14 +67,13 @@ class UtilisateurController extends AbstractController
         	// // $user_information = $entityManager->getRepository(Utilisateur::class)->findOneBy(array('nom' => $user -> getNom(),'num' => $user -> getNum()));
 			// $user_information = $entityManager->getRepository(Utilisateur::class)->findOneBy(array('id' => $user -> getId(),'password' => $user -> getPassword()));
 
-			var_dump($user);
         	if (!$user_repo->verif_indentifiants($user)){
             	return $this->render('utilisateur/index.html.twig', [
                 	'form' => $form->createView(),
 					'auth_title' => "Connection",
 					'auth_msg' => "S'inscrire",
 					'auth_url' => "/inscription",
-                	'error_message' => "Connexion impossible, utilisateur inexistant ou mot de passe invalide", 
+                	'error_msg' => "Connexion impossible, utilisateur inexistant ou mot de passe invalide", 
             	]);
         	}
 
@@ -104,10 +103,21 @@ class UtilisateurController extends AbstractController
 			   ]);
 		}
 
-		$aliments_fav = $form->getData();
-		foreach ($aliments_fav as $fav) {
-			$alim_repo->save_alim_favoris($fav->to_alim_fav($session->get('id')));
+		$uid = $session->get('id');
+		$data = $form->getData();
+
+		$aliments_fav = Aliment::convert_all_to_fav($data, $uid);
+
+		$no_error = $alim_repo->save_all($aliments_fav,$uid);
+		if (!$no_error){
+			return $this->render('utilisateur/sante.html.twig', [
+				'form' => $form->createView(),
+				'auth_title' => "Sondage Santé",
+				'error_msg' => "Un de ces aliments a déjà été selectionné comme favoris. "
+				]);
 		}
+		
+		
 
 		return $this->redirectToRoute('recap');
     }

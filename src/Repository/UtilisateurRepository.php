@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Utilisateur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @extends ServiceEntityRepository<Utilisateur>
@@ -19,11 +20,11 @@ class UtilisateurRepository extends ServiceEntityRepository
     private $connection;
     private $save_user_statement;
 
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(EntityManagerInterface $entityManage, ManagerRegistry $registry)
     {
         parent::__construct($registry, Utilisateur::class);
 
-        $this->connection = $this->getEntityManager()->getConnection();
+        $this->connection = $entityManage->getConnection();
         $this->save_user_statement = $this->connection->prepare('CALL ajout_user(:Id, :mdp, :Nom, :Prenom, :DateOfBirth, :CodePostale, :Tel, :City, :Address
         )');
     }

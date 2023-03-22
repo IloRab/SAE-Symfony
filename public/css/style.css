@@ -139,3 +139,11 @@ form>h2 {
 #maincomponents>section{
   margin-bottom: 5px;
 }
+
+.error {
+  color: red;
+}
+
+.error::before {
+  content: "🚨";
+}

@@ -6,6 +6,7 @@ use App\Entity\UtilisateurConnecte;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @extends ServiceEntityRepository<UtilisateurConnecte>
@@ -17,33 +18,16 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class UtilisateurConnecteRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $em;
+    public function __construct(EntityManagerInterface $em, ManagerRegistry $registry)
     {
         parent::__construct($registry, UtilisateurConnecte::class);
-    }
-
-    public function save(UtilisateurConnecte $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->persist($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
-    public function remove(UtilisateurConnecte $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+        $this->em = $em;
     }
     
     public function verif_indentifiants(UtilisateurConnecte $user) : bool {
  
-        var_dump($user);
-        $em = $this->getEntityManager();
+        $em = $this->em;
 
         $sql = 'SELECT verif_pwd(:id, :pwd) AS est_vrai';
 
@@ -54,9 +38,6 @@ class UtilisateurConnecteRepository extends ServiceEntityRepository
 
         $id =  $user->getId();
         $pwd = $user->getPassword();
-
-        var_dump($id);
-        var_dump($pwd);
 
         $query->setParameter('id', $id);
         $query->setParameter('pwd', $pwd);
