@@ -30,40 +30,6 @@ REPLACE INTO alimfavori VALUES(IdUser,AlimCode,YEAR(SYSDATE()));
 END//
 DELIMITER ;
 
--- Listage de la structure de table site. utilisateur
-CREATE TABLE IF NOT EXISTS `utilisateur` (
-  `Identifiant` varchar(50) CHARACTER SET utf8mb4 NOT NULL,
-  `pwd` varchar(150) NOT NULL,
-  `Nom` varchar(50) CHARACTER SET utf8mb4 NOT NULL,
-  `Prenom` varchar(50) CHARACTER SET utf8mb4 NOT NULL,
-  `Naissance` date NOT NULL,
-  `CodePostale` int unsigned NOT NULL,
-  `Telephone` int unsigned NOT NULL,
-  `Ville` varchar(30) CHARACTER SET utf8mb4 NOT NULL,
-  `Adresse` varchar(100) CHARACTER SET utf8mb4 NOT NULL,
-  PRIMARY KEY (`Identifiant`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
-
--- Listage de la structure de table site. aliment
-CREATE TABLE IF NOT EXISTS `aliment` (
-  `alim_code` int unsigned NOT NULL AUTO_INCREMENT,
-  `alim_nom_fr` varchar(200) CHARACTER SET utf8mb4 NOT NULL,
-  `alim_nom_sci` varchar(100) CHARACTER SET utf8mb4 DEFAULT NULL,
-  `alim_grp_nom_fr` varchar(50) NOT NULL,
-  `alim_ssgrp_nom_fr` varchar(50) NOT NULL,
-  `alim_ssssgrp_nom_fr` varchar(50) NOT NULL,
-  `energie(kcal/100g)` varchar(10) NOT NULL DEFAULT '-',
-  `eau(g/100g)` varchar(10) NOT NULL DEFAULT '-',
-  `proteines(g/100g)` varchar(10) NOT NULL DEFAULT '-',
-  `glucides(g/100g)` varchar(10) NOT NULL DEFAULT '-',
-  `lipides(g/100g)` varchar(10) NOT NULL DEFAULT '-',
-  `sucres(g/100g)` varchar(10) NOT NULL DEFAULT '-',
-  PRIMARY KEY (`alim_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=96782 DEFAULT CHARSET=utf8mb4;
-
-
-
-
 -- Listage de la structure de procédure site. ajout_user
 DELIMITER //
 CREATE PROCEDURE `ajout_user`(
@@ -82,6 +48,24 @@ INSERT INTO utilisateur(Identifiant,pwd,Nom,Prenom,Naissance,`CodePostal`,Teleph
 END//
 DELIMITER ;
 
+-- Listage de la structure de table site. aliment
+CREATE TABLE IF NOT EXISTS `aliment` (
+  `alim_code` int unsigned NOT NULL AUTO_INCREMENT,
+  `alim_nom_fr` varchar(200) CHARACTER SET utf8mb4 NOT NULL,
+  `alim_nom_sci` varchar(100) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `alim_grp_nom_fr` varchar(50) NOT NULL,
+  `alim_ssgrp_nom_fr` varchar(50) NOT NULL,
+  `alim_ssssgrp_nom_fr` varchar(50) NOT NULL,
+  `energie(kcal/100g)` varchar(10) NOT NULL DEFAULT '-',
+  `eau(g/100g)` varchar(10) NOT NULL DEFAULT '-',
+  `proteines(g/100g)` varchar(10) NOT NULL DEFAULT '-',
+  `glucides(g/100g)` varchar(10) NOT NULL DEFAULT '-',
+  `lipides(g/100g)` varchar(10) NOT NULL DEFAULT '-',
+  `sucres(g/100g)` varchar(10) NOT NULL DEFAULT '-',
+  PRIMARY KEY (`alim_code`)
+) ENGINE=InnoDB AUTO_INCREMENT=96782 DEFAULT CHARSET=utf8mb4;
+
+-- Les données exportées n'étaient pas sélectionnées.
 
 -- Listage de la structure de table site. alimfavori
 CREATE TABLE IF NOT EXISTS `alimfavori` (
@@ -95,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `alimfavori` (
   CONSTRAINT `FK_User` FOREIGN KEY (`Identifiant_User`) REFERENCES `utilisateur` (`Identifiant`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Listage des données de la table site.alimfavori : ~1 rows (environ)
+-- Les données exportées n'étaient pas sélectionnées.
 
 -- Listage de la structure de procédure site. delete_user
 DELIMITER //
@@ -107,13 +91,22 @@ DELETE FROM utilisateur WHERE identifiant= id;
 END//
 DELIMITER ;
 
+-- Listage de la structure de l'évènement site. nouvelle_annee
+DELIMITER //
+CREATE EVENT `nouvelle_annee` ON SCHEDULE EVERY 1 YEAR STARTS '2024-01-01 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO BEGIN
+DELETE FROM score_sante;
+END//
+DELIMITER ;
+
 -- Listage de la structure de table site. sante_alim
 CREATE TABLE IF NOT EXISTS `sante_alim` (
   `Code_alim` int unsigned NOT NULL,
   `Score` int unsigned NOT NULL,
   PRIMARY KEY (`Code_alim`),
   CONSTRAINT `FK__aliment` FOREIGN KEY (`Code_alim`) REFERENCES `aliment` (`alim_code`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Les données exportées n'étaient pas sélectionnées.
 
 -- Listage de la structure de table site. score_sante
 CREATE TABLE IF NOT EXISTS `score_sante` (
@@ -123,10 +116,23 @@ CREATE TABLE IF NOT EXISTS `score_sante` (
   CONSTRAINT `FK_User_score` FOREIGN KEY (`IdentifiantUser`) REFERENCES `utilisateur` (`Identifiant`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Listage des données de la table site.score_sante : ~0 rows (environ)
+-- Les données exportées n'étaient pas sélectionnées.
 
+-- Listage de la structure de table site. utilisateur
+CREATE TABLE IF NOT EXISTS `utilisateur` (
+  `Identifiant` varchar(50) CHARACTER SET utf8mb4 NOT NULL,
+  `pwd` varchar(150) NOT NULL,
+  `Nom` varchar(50) CHARACTER SET utf8mb4 NOT NULL,
+  `Prenom` varchar(50) CHARACTER SET utf8mb4 NOT NULL,
+  `Naissance` date NOT NULL,
+  `CodePostale` int unsigned NOT NULL,
+  `Telephone` int unsigned NOT NULL,
+  `Ville` varchar(30) CHARACTER SET utf8mb4 NOT NULL,
+  `Adresse` varchar(100) CHARACTER SET utf8mb4 NOT NULL,
+  PRIMARY KEY (`Identifiant`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Listage des données de la table site.utilisateur : ~0 rows (environ)
+-- Les données exportées n'étaient pas sélectionnées.
 
 -- Listage de la structure de déclencheur site. calcul_score_aliment
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
@@ -148,11 +154,12 @@ CREATE TRIGGER `calcul_score_sante` AFTER INSERT ON `alimfavori` FOR EACH ROW BE
 	DECLARE alim INTEGER;
 	DECLARE nb_alim INTEGER;
 	DECLARE score_alim INTEGER;
-	DECLARE cur1 CURSOR FOR SELECT alim_code FROM alimfavori WHERE Identifiant_User= NEW.Identifiant_User;
+	DECLARE cur1 CURSOR FOR SELECT alim_code FROM alimfavori WHERE Identifiant_User= NEW.Identifiant_User AND Annee=YEAR(SYSDATE());
    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 
 SET sante = 0;
-SELECT COUNT(alim_code) INTO nb_alim FROM alimfavori WHERE Identifiant_User=NEW.Identifiant_User;
+SELECT COUNT(alim_code) INTO nb_alim FROM alimfavori WHERE Identifiant_User=NEW.Identifiant_User AND Annee=YEAR(SYSDATE());
+IF (nb_alim>0) THEN 
 OPEN cur1;
 calcul: LOOP
 	FETCH cur1 INTO alim;
@@ -165,6 +172,7 @@ END LOOP calcul;
 CLOSE cur1;
 SET sante= sante / nb_alim;
 REPLACE INTO score_sante VALUES(NEW.Identifiant_User,sante);
+END IF;
 END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
