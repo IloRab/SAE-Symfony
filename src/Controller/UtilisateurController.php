@@ -11,6 +11,8 @@ use App\Entity\{Aliment, Utilisateur};
 use App\Form\{UserType, AlimentsFavorisType, UtilisateurConnectionType};
 use App\Repository\{AlimentFavorisRepository, UtilisateurRepository, UtilisateurConnecteRepository};
 
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 class UtilisateurController extends AbstractController
 {
     #[Route('/inscription', name: 'app_inscription')]
@@ -125,7 +127,86 @@ class UtilisateurController extends AbstractController
 	#[Route('/recap', name: 'recap')]                                                                                                                                                                                                                                                                                                         
     public function recap(Request $request,ManagerRegistry $doctrine){
 
+		return new JsonResponse(array('name' => "bob"));
+	}
+
+
+	// Réponses de recap
+	
+	#[Route('/recap_user', name: 'recap_user')]                                                                                                                                                                                                                                                                                                         
+    public function recap_user(Request $request,ManagerRegistry $doctrine){
+		$session = $request->getSession();
+
+		if (!$session->get('EST_CONNECTE')){
+			return $this->redirectToRoute('app_connection');
+		}
+
+		$data_tmp = array(
+			array("Eau minérale Abatilles, embouteillée, non gazeuse, faiblement minéralisée (Arcachon, 33)", "eaux et autres boissons", "eaux"),
+			array("Eau minérale Aix-les-Bains, embouteillée, non gazeuse, faiblement minéralisée (Aix-les-Bains, 73)", "eaux et autres boissons", "eaux"),
+			array("Eau minérale Aizac, embouteillée, gazeuse, faiblement minéralisée (Aizac, 07)", "eaux et autres boissons", "eaux"),
+			array("Eau minérale Amanda, embouteillée, non gazeuse, fortement minéralisée (St-Amand, 59)", "eaux et autres boissons", "eaux"),
+			array("Eau minérale Arcens, embouteillée, gazeuse, moyennement minéralisée (Arcens, 07)", "eaux et autres boissons", "eaux"),
+			array("Eau minérale Ardesy, embouteillée, gazeuse, fortement minéralisée (Ardes, 63)", "eaux et autres boissons", "eaux"),
+			array("Eau minérale Celtic, embouteillée, gazeuse ou non gazeuse, très faiblement minéralisée (Niederbronn, 67)", "eaux et autres boissons", "eaux"),
+			array("Eau minérale Chambon, embouteillée, non gazeuse, faiblement minéralisée (Chambon, 45)", "eaux et autres boissons", "eaux"),
+			array("Eau minérale Chantemerle, embouteillée, non gazeuse, faiblement minéralisée (Le Pestrin, 07)", "eaux et autres boissons", "eaux"),
+			array("Eau minérale Chateauneuf, embouteillée, gazeuse, fortement minéralisée (Chateauneuf, 63)", "eaux et autres boissons", "eaux"),
+			array("Eau minérale Chateldon, embouteillée, gazeuse, fortement minéralisée (Chateldon, 63)", "eaux et autres boissons", "eaux")
+		);
+
+		$user = [
+			'score-sante' => 12,
+			'aliments-fav' => $data_tmp
+		];
+
+		return new JsonResponse($user);
+	}
+
+	#[Route('/recap_global', name: 'recap_global')]                                                                                                                                                                                                                                                                                                         
+    public function recap_global(Request $request,ManagerRegistry $doctrine)
+	{
+
+		$data_tmp = array(
+			array("Eau minérale Abatilles, embouteillée, non gazeuse, faiblement minéralisée (Arcachon, 33)", "eaux et autres boissons", "eaux"),
+			array("Eau minérale Aix-les-Bains, embouteillée, non gazeuse, faiblement minéralisée (Aix-les-Bains, 73)", "eaux et autres boissons", "eaux"),
+			array("Eau minérale Aizac, embouteillée, gazeuse, faiblement minéralisée (Aizac, 07)", "eaux et autres boissons", "eaux"),
+			array("Eau minérale Amanda, embouteillée, non gazeuse, fortement minéralisée (St-Amand, 59)", "eaux et autres boissons", "eaux"),
+			array("Eau minérale Arcens, embouteillée, gazeuse, moyennement minéralisée (Arcens, 07)", "eaux et autres boissons", "eaux"),
+			array("Eau minérale Ardesy, embouteillée, gazeuse, fortement minéralisée (Ardes, 63)", "eaux et autres boissons", "eaux"),
+			array("Eau minérale Celtic, embouteillée, gazeuse ou non gazeuse, très faiblement minéralisée (Niederbronn, 67)", "eaux et autres boissons", "eaux"),
+			array("Eau minérale Chambon, embouteillée, non gazeuse, faiblement minéralisée (Chambon, 45)", "eaux et autres boissons", "eaux"),
+			array("Eau minérale Chantemerle, embouteillée, non gazeuse, faiblement minéralisée (Le Pestrin, 07)", "eaux et autres boissons", "eaux"),
+			array("Eau minérale Chateauneuf, embouteillée, gazeuse, fortement minéralisée (Chateauneuf, 63)", "eaux et autres boissons", "eaux"),
+			array("Eau minérale Chateldon, embouteillée, gazeuse, fortement minéralisée (Chateldon, 63)", "eaux et autres boissons", "eaux")
+		);
+
+		$tmp_distribution = array(
+			12, 16, 9, 5, 18, 9, 17, 14, 8, 18,
+			12, 10, 7, 17, 13, 15, 8, 11, 16, 6,
+			12, 16, 9, 5, 18, 9, 17, 14, 8, 18
+		);
 		
+		$global = [
+			'score-sante-stats' => [
+				'min' => 1,
+				'median' => 12,
+				'max' => 20
+			],
+			'score-sante-distribution' => $tmp_distribution,
+			'aliments-fav-annuel' => [
+				[
+					'année' => 2023,
+					'aliments' => $data_tmp
+				],
+				[
+					'année' => 2022,
+					'aliments' => $data_tmp
+				]
+			]
+		];
+
+		return new JsonResponse($global);
 	}
 
 

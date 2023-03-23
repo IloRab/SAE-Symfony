@@ -3,7 +3,9 @@
 namespace App\Tests\Entity;
 
 use PHPUnit\Framework\TestCase;
-
+use App\Entity\Aliment;
+use App\Entity\AlimentFavoris;
+use PHPUnit\Framework\MockObject\Builder\InvocationMocker;
 class AlimentTest extends TestCase
 {
     public function test_array_convertion(): void
