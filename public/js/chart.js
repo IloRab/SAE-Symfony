@@ -1,36 +1,56 @@
 //récuperer les données json
-$.getJSON('', function(data){
-    
-})
+$.getJSON("http://sae-symfony.test/recap_global", function(data){
 
-//Data Block
-const data = {
-    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-    datasets: [{
-    label: '# of Votes',
-    data: [12, 19, 3, 5, 2, 3],
-    borderWidth: 1,
-    backgroundColor : 'yellow'
-    }]
-};
+    const median = data["score-sante-stats"].median;
 
-//Config Block
+    const min_tab = [];
 
-const config = {
-    data : data,
-    type: 'bar',
-        options: {
-        scales: {
-        y: {
-            beginAtZero: true
+    const cpt_tab = [];
+
+    const score_value = data["score-sante-distribution"];
+
+    const color_tab = [];
+
+    let cpt = 0;
+
+    score_value.forEach(element => {
+        cpt_tab.push(cpt);
+        color_tab.push("rgba(54, 162, 235)");
+        cpt++;
+    });
+
+    color_tab.splice(0,1);
+
+    color_tab.splice(median,0,"rgba(255, 99, 132)");
+
+
+    const datas = {
+        labels: cpt_tab,
+        datasets: [{
+        type: 'bar',
+        label: 'Nombre de personnes',
+        data: score_value,
+        backgroundColor: color_tab,
+        borderWidth: 1
         }
+    ]
+    };
+
+    const config = {
+        data : datas,
+            options: {
+            scales: {
+            y: {
+                beginAtZero: true
+            }
+            }
         }
-    }
-};
+    };
 
-//Render Init Blocks
-
-const  myChart = new Chart(
-    document.getElementById('myChart'),
-    config
+    const  myChart = new Chart(
+        document.getElementById('chartTest'),
+        config
     );
+
+    
+});

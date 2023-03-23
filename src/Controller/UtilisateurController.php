@@ -127,7 +127,7 @@ class UtilisateurController extends AbstractController
 	#[Route('/recap', name: 'recap')]                                                                                                                                                                                                                                                                                                         
     public function recap(Request $request,ManagerRegistry $doctrine){
 
-		return new JsonResponse(array('name' => "bob"));
+		return $this->render('utilisateur/recap.html.twig');
 	}
 
 
