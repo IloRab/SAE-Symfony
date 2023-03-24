@@ -19,10 +19,28 @@ use Doctrine\ORM\EntityManagerInterface;
 class UtilisateurConnecteRepository extends ServiceEntityRepository
 {
     private $em;
+
+    private $connection;
+    private $score_stm;
+    private $alims_stm;
+
     public function __construct(EntityManagerInterface $em, ManagerRegistry $registry)
     {
         parent::__construct($registry, UtilisateurConnecte::class);
         $this->em = $em;
+
+        $this->connection = $this->em->getConnection();
+        $this->alims_stm = $this->connection->prepare("SELECT A.alim_nom_fr, A.alim_grp_nom_fr, A.alim_ssgrp_nom_fr 
+        FROM aliment A 
+        WHERE A.alim_code IN (
+            SELECT alim_code 
+            FROM alimfavori 
+            WHERE Identifiant_User = :Id 
+            AND Annee= YEAR(SYSDATE())
+        )");
+        $this->score_stm = $this->connection->prepare('SELECT Score 
+        FROM score_sante 
+        WHERE IdentifiantUser = :Id;');
     }
     
     public function verif_indentifiants(UtilisateurConnecte $user) : bool {
@@ -44,6 +62,21 @@ class UtilisateurConnecteRepository extends ServiceEntityRepository
 
         $res =  $query->getSingleScalarResult();
         return $res;
+    }
+
+    public function get_score(UtilisateurConnecte $user){
+        $id = $user->getId();
+        $this->score_stm->bindParam(':Id', $id);
+
+        return $this->score_stm->executeQuery()->fetchOne();
+        
+    }
+
+    public function get_alims(UtilisateurConnecte $user) {
+        $id = $user->getId();
+        $this->alims_stm->bindParam(':Id', $id);
+ 
+        return $this->alims_stm->executeQuery()->fetchAllAssociative();
     }
 
 //    /**

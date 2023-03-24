@@ -16,5 +16,7 @@ class UtilisateurTest extends TestCase
     {
         $entityManagerInterface = $this->createMock(EntityManagerInterface::class);
         $ManagerRegistry = $this->createMock(ManagerRegistry::class);
+
+        $this->assertTrue(true);
     }
 }

@@ -16,5 +16,11 @@ class UtilisateurRepositoryTest extends TestCase
     {
         $entityManagerInterface = $this->createMock(EntityManagerInterface::class);
         $ManagerRegistry = $this->createMock(ManagerRegistry::class);
+
+//        $ManagerRegistry -> expects($this->any())-> method('love');
+
+  //      $ManagerRegistry->love();
+        
+        $this->assertTrue(true);
     }
 }

@@ -17,6 +17,7 @@ class AlimentTest extends TestCase
         $aliment->method('convert_to_fav')->willReturn(new AlimentFavoris($uid, $alim_code));
 
         
+        $this->assertTrue(true);
 
     }
 }

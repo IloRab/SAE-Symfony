@@ -11,6 +11,10 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\PDO\Exception;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
+
+use App\Repository\db_requests\AlimentFavSaver;
+
+
 /**
  * @extends ServiceEntityRepository<AlimentFavoris>
  *
@@ -21,32 +25,45 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
  */
 class AlimentFavorisRepository extends ServiceEntityRepository
 {
-    private $statement;
-    
+    private $alimFavSaver;
+    private $connection;
+    private $score_sante_min;
+    private $score_sante_max;
+    private $score_sante_median;
+
+    private $score_sante_distribution;
+
+    private $aliments_fav_annuel;
 
     public function __construct(EntityManagerInterface $em, ManagerRegistry $registry)
     {
+
         parent::__construct($registry, AlimentFavoris::class);
 
-        $this->statement = $em->getConnection()->prepare('CALL ajout_alimfav(:id_user, :code_aliment)');
+        $this->connection = $this->em->getConnection();
+        $this->alimFavSaver = new AlimentFavSaver($em);
+
+        $this->score_sante_min = $this->connection->prepare("SELECT MIN(Score) FROM score_sante");
+        $this->score_sante_max = $this->connection->prepare("SELECT MAX(Score) FROM score_sante");
+        $this->score_sante_median = $this->connection->prepare("SELECT AVG(Score) FROM score_sante");
+
+        $this->score_sante_distribution = $this->connection->prepare("SELECT Score,COUNT(IdentifiantUser) FROM score_sante GROUP BY Score");
+
+        $this->aliments_fav_annuel = $this->connection->prepare("SELECT Af.Annee, A.alim_nom_fr,A.alim_grp_nom_fr,A.alim_ssgrp_nom_fr FROM aliment A,alimfavori Af WHERE A.alim_code = Af.alim_code;");
+
+
+
+
     }
 
     /**
      * Enregistre un aliment en tant que favori pour un utilisateur.
      *
-     * @param int $userId L'ID de l'utilisateur pour lequel enregistrer le favori.
-     * @param string $codeAliment Le code de l'aliment à enregistrer en tant que favori.
      */
     function save(AlimentFavoris $af): bool
     {
         try{
-            $id_usr =  $af->getIdentifiant_User();
-            $code_alim = $af->getAlimCode();
-
-            $this->statement->bindValue('id_user', $id_usr);
-            $this->statement->bindValue('code_aliment', $code_alim);
-
-            $this->statement->execute();
+            $this->alimFavSaver->save($af);
             return true;
         } catch(UniqueConstraintViolationException  $e){
             return false;
@@ -66,28 +83,4 @@ class AlimentFavorisRepository extends ServiceEntityRepository
         return true;
     }
 
-//    /**
-//     * @return AlimentFavoris[] Returns an array of AlimentFavoris objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('a.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?AlimentFavoris
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

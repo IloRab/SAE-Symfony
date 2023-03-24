@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\{Response, Request};
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 
-use App\Entity\{Aliment, Utilisateur};
+use App\Entity\{Aliment, Utilisateur, UtilisateurConnecte};
 use App\Form\{UserType, AlimentsFavorisType, UtilisateurConnectionType};
 use App\Repository\{AlimentFavorisRepository, UtilisateurRepository, UtilisateurConnecteRepository};
 
@@ -126,6 +126,11 @@ class UtilisateurController extends AbstractController
 
 	#[Route('/recap', name: 'recap')]                                                                                                                                                                                                                                                                                                         
     public function recap(Request $request,ManagerRegistry $doctrine){
+		$session = $request->getSession();
+
+		if (!$session->get('EST_CONNECTE')){
+			return $this->redirectToRoute('app_connection');
+		}
 
 		return $this->render('utilisateur/recap.html.twig');
 	}
@@ -134,33 +139,22 @@ class UtilisateurController extends AbstractController
 	// Réponses de recap
 	
 	#[Route('/recap_user', name: 'recap_user')]                                                                                                                                                                                                                                                                                                         
-    public function recap_user(Request $request,ManagerRegistry $doctrine){
+    public function recap_user(Request $request, UtilisateurConnecteRepository $user_repo){
 		$session = $request->getSession();
 
 		if (!$session->get('EST_CONNECTE')){
 			return $this->redirectToRoute('app_connection');
 		}
 
-		$data_tmp = array(
-			array("Eau minérale Abatilles, embouteillée, non gazeuse, faiblement minéralisée (Arcachon, 33)", "eaux et autres boissons", "eaux"),
-			array("Eau minérale Aix-les-Bains, embouteillée, non gazeuse, faiblement minéralisée (Aix-les-Bains, 73)", "eaux et autres boissons", "eaux"),
-			array("Eau minérale Aizac, embouteillée, gazeuse, faiblement minéralisée (Aizac, 07)", "eaux et autres boissons", "eaux"),
-			array("Eau minérale Amanda, embouteillée, non gazeuse, fortement minéralisée (St-Amand, 59)", "eaux et autres boissons", "eaux"),
-			array("Eau minérale Arcens, embouteillée, gazeuse, moyennement minéralisée (Arcens, 07)", "eaux et autres boissons", "eaux"),
-			array("Eau minérale Ardesy, embouteillée, gazeuse, fortement minéralisée (Ardes, 63)", "eaux et autres boissons", "eaux"),
-			array("Eau minérale Celtic, embouteillée, gazeuse ou non gazeuse, très faiblement minéralisée (Niederbronn, 67)", "eaux et autres boissons", "eaux"),
-			array("Eau minérale Chambon, embouteillée, non gazeuse, faiblement minéralisée (Chambon, 45)", "eaux et autres boissons", "eaux"),
-			array("Eau minérale Chantemerle, embouteillée, non gazeuse, faiblement minéralisée (Le Pestrin, 07)", "eaux et autres boissons", "eaux"),
-			array("Eau minérale Chateauneuf, embouteillée, gazeuse, fortement minéralisée (Chateauneuf, 63)", "eaux et autres boissons", "eaux"),
-			array("Eau minérale Chateldon, embouteillée, gazeuse, fortement minéralisée (Chateldon, 63)", "eaux et autres boissons", "eaux")
-		);
+		$user = new UtilisateurConnecte();
+		$user-> setId($session->get('id'));
 
-		$user = [
-			'score-sante' => 12,
-			'aliments-fav' => $data_tmp
-		];
+		$stats = [
+            'score-sante'=> $user_repo->get_score($user),
+            'aliments-fav' => $user_repo->get_alims($user)
+        ];
 
-		return new JsonResponse($user);
+		return new JsonResponse($stats);
 	}
 
 	#[Route('/recap_global', name: 'recap_global')]                                                                                                                                                                                                                                                                                                         
