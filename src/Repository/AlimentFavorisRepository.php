@@ -45,14 +45,11 @@ class AlimentFavorisRepository extends ServiceEntityRepository
 
         $this->score_sante_min = $this->connection->prepare("SELECT MIN(Score) FROM score_sante");
         $this->score_sante_max = $this->connection->prepare("SELECT MAX(Score) FROM score_sante");
-        $this->score_sante_median = $this->connection->prepare("SELECT AVG(Score) FROM score_sante");
+        $this->score_sante_avg = $this->connection->prepare("SELECT ROUND(AVG(Score)) FROM score_sante");
 
-        $this->score_sante_distribution = $this->connection->prepare("SELECT Score,COUNT(IdentifiantUser) FROM score_sante GROUP BY Score");
+        $this->score_sante_distribution = $this->connection->prepare("select ROUND(score) AS score_sante, COUNT(score) as effectif from score_sante group by 1 ORDER BY score_sante;");
 
         $this->aliments_fav_annuel = $this->connection->prepare("SELECT Af.Annee, A.alim_nom_fr,A.alim_grp_nom_fr,A.alim_ssgrp_nom_fr FROM aliment A,alimfavori Af WHERE A.alim_code = Af.alim_code;");
-
-
-
 
     }
 
@@ -83,4 +80,16 @@ class AlimentFavorisRepository extends ServiceEntityRepository
         return true;
     }
 
+    function get_alims_stats() : array{
+
+        $rep["min"] = $this->score_sante_min->executeQuery()->fetchOne();
+        $rep["median"] = $this->score_sante_avg->executeQuery()->fetchOne();
+        $rep["max"] = $this->score_sante_max->executeQuery()->fetchOne();
+        
+        return $rep;
+    }
+
+    function get_alims_distr() : array{
+       return $this->score_sante_distribution->executeQuery()->fetchAll();
+    }
 }

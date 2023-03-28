@@ -158,7 +158,7 @@ class UtilisateurController extends AbstractController
 	}
 
 	#[Route('/recap_global', name: 'recap_global')]                                                                                                                                                                                                                                                                                                         
-    public function recap_global(Request $request,ManagerRegistry $doctrine)
+    public function recap_global(Request $request, ManagerRegistry $doctrine, AlimentFavorisRepository $alim_repo)
 	{
 
 		$data_tmp = array(
@@ -189,12 +189,8 @@ class UtilisateurController extends AbstractController
 		);
 		
 		$global = [
-			'score-sante-stats' => [
-				'min' => 1,
-				'median' => 12,
-				'max' => 20
-			],
-			'score-sante-distribution' => $tmp_distribution,
+			"score-sante-stat" => $alim_repo->get_alims_stats(),
+			'score-sante-distribution' => $alim_repo->get_alims_distr(),
 			'aliments-fav-annuel' => [
 				[
 					'année' => 2023,
