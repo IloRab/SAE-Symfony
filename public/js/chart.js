@@ -3,8 +3,6 @@ $.getJSON("http://sae-symfony.test/recap_global", function(data){
 
     const median = data["score-sante-stats"].median;
 
-    const min_tab = [];
-
     const cpt_tab = [];
 
     const score_value = data["score-sante-distribution"];

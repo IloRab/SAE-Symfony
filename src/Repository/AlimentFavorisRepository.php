@@ -40,7 +40,7 @@ class AlimentFavorisRepository extends ServiceEntityRepository
 
         parent::__construct($registry, AlimentFavoris::class);
 
-        $this->connection = $this->em->getConnection();
+        $this->connection = $em->getConnection();
         $this->alimFavSaver = new AlimentFavSaver($em);
 
         $this->score_sante_min = $this->connection->prepare("SELECT MIN(Score) FROM score_sante");
