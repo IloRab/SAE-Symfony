@@ -108,5 +108,55 @@ def sonder(n):
         deb+='"'+str(liste_city[i])+'",'
         deb+='"'+str(liste_add[i])+'");\n'
         f.write(deb)
+        deb="INSERT INTO alimfavori VALUES("
+        deb+='"'+str(liste_adm[i])+"\", "
+        deb+=str(liste_al1[i])+', '
+        deb+='2023);\n'
+        f.write(deb)
+        deb="INSERT INTO alimfavori VALUES("
+        deb+='"'+str(liste_adm[i])+"\", "
+        deb+=str(liste_al2[i])+', '
+        deb+='2023);\n'
+        f.write(deb)
+        deb="INSERT INTO alimfavori VALUES("
+        deb+='"'+str(liste_adm[i])+"\", "
+        deb+=str(liste_al3[i])+', '
+        deb+='2023);\n'
+        f.write(deb)
+        deb="INSERT INTO alimfavori VALUES("
+        deb+='"'+str(liste_adm[i])+"\", "
+        deb+=str(liste_al4[i])+', '
+        deb+='2023);\n'
+        f.write(deb)
+        deb="INSERT INTO alimfavori VALUES("
+        deb+='"'+str(liste_adm[i])+"\", "
+        deb+=str(liste_al5[i])+', '
+        deb+='2023);\n'
+        f.write(deb)
+        deb="INSERT INTO alimfavori VALUES("
+        deb+='"'+str(liste_adm[i])+"\", "
+        deb+=str(liste_al6[i])+', '
+        deb+='2023);\n'
+        f.write(deb)
+        deb="INSERT INTO alimfavori VALUES("
+        deb+='"'+str(liste_adm[i])+"\", "
+        deb+=str(liste_al7[i])+', '
+        deb+='2023);\n'
+        f.write(deb)
+        deb="INSERT INTO alimfavori VALUES("
+        deb+='"'+str(liste_adm[i])+"\", "
+        deb+=str(liste_al8[i])+', '
+        deb+='2023);\n'
+        f.write(deb)
+        deb="INSERT INTO alimfavori VALUES("
+        deb+='"'+str(liste_adm[i])+"\", "
+        deb+=str(liste_al9[i])+', '
+        deb+='2023);\n'
+        f.write(deb)
+        deb="INSERT INTO alimfavori VALUES("
+        deb+='"'+str(liste_adm[i])+"\", "
+        deb+=str(liste_al10[i])+', '
+        deb+='2023);\n'
+        f.write(deb)
     f.close()
 sonder(100)
