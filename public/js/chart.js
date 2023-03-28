@@ -1,26 +1,48 @@
 //récuperer les données json
 $.getJSON("http://sae-symfony.test/recap_global", function(data){
 
-    const median = data["score-sante-stats"].median;
+    const median = data["score-sante-stat"].median;
+    const min = data["score-sante-stat"].min;
+    const max = data["score-sante-stat"].max;
+
 
     const cpt_tab = [];
-
-    const score_value = data["score-sante-distribution"];
+    for(let i = min;i<=max;i++){
+        cpt_tab.push(i);
+    }
 
     const color_tab = [];
 
-    let cpt = 0;
-
-    score_value.forEach(element => {
-        cpt_tab.push(cpt);
+    cpt_tab.forEach(element => {
         color_tab.push("rgba(54, 162, 235)");
-        cpt++;
     });
 
     color_tab.splice(0,1);
 
-    color_tab.splice(median,0,"rgba(255, 99, 132)");
+    color_tab.splice(median-min,0,"rgba(255, 99, 132)");
 
+    const score_value = [];
+
+    const rawdata = data["score-sante-distribution"];
+
+    let cpt = 0;
+
+    rawdata.forEach(element => {
+        let bool = true;
+        while(bool){
+            if(element["score_sante"] == cpt_tab[cpt]){
+                score_value.push(element["effectif"]);
+                bool = false;
+            }
+            else{
+                score_value.push(0);
+            }
+            cpt++;
+        }
+        
+    })
+
+    console.log(score_value);
 
     const datas = {
         labels: cpt_tab,
