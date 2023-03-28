@@ -42,8 +42,6 @@ $.getJSON("http://sae-symfony.test/recap_global", function(data){
         
     })
 
-    console.log(score_value);
-
     const datas = {
         labels: cpt_tab,
         datasets: [{
