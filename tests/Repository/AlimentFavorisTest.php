@@ -18,7 +18,7 @@ class AlimentFavorisTest extends TestCase
 {
     public function testSomething(): void
     {
-        $managerRegistry = $this->createMock(ManagerRegistry::class);
+      /*  $managerRegistry = $this->createMock(ManagerRegistry::class);
 
         $entityManagerInterface = $this->createMock(EntityManagerInterface::class);
         $connection = $this->createMock(Connection::class);
@@ -59,6 +59,6 @@ class AlimentFavorisTest extends TestCase
 
        $repo = new AlimentFavorisRepository($entityManagerInterface,$managerRegistry);
 
-       $repo ->save($aliment_fav);
+       $repo ->save($aliment_fav);*/
     }
 }

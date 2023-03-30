@@ -64,44 +64,4 @@ class UtilisateurRepository extends ServiceEntityRepository
         }
     }
 
-    
-
-    // public function findContactsById($id)
-    // {
-    //     // SELECT nom, prenom, email from contact c, utilisateur u where c.id_nom = :id and c.id_contact = u.id_nom limit 0,30
-    //     $qb = $this->createQueryBuilder('u')
-    //         ->select('u.nom', 'u.prenom', 'u.email')
-    //         ->innerJoin(Contact::class, 'c')
-    //         ->where('c.id_nom = :id')
-    //         ->andWhere('c.id_contact = u.id_nom')
-    //         ->setParameter('id', $id)
-    //         ->setMaxResults(30);
-
-    //     return $qb->getQuery()->getResult();
-    // }
-
-//    /**
-//     * @return Utilisateur[] Returns an array of Utilisateur objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Utilisateur
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

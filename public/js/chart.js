@@ -1,5 +1,5 @@
 //récuperer les données json
-$.getJSON("http://sae-symfony.test/recap_global", function(data){
+$.getJSON("http://sondage-sante.test/recap_global", function(data){
 
     const median = data["score-sante-stat"].median;
     const min = data["score-sante-stat"].min;

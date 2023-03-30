@@ -26,10 +26,6 @@ class Aliment
     #[ORM\Column(length: 50)]
     private ?string $alim_ssssgrp_nom_fr = null;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getAlimCode(): ?int
     {
