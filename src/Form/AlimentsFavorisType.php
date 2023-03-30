@@ -23,7 +23,7 @@ class AlimentsFavorisType extends AbstractType
         //     'allow_add' => true,
         // ]);
         
-    for ($i = 1; $i <= 3; $i++) {
+    for ($i = 1; $i <= 10; $i++) {
       $builder->add('Aliment'.$i, EntityType::class, 
         [   'class' => Aliment::class,
             'choice_label' => 'alim_nom_fr',
